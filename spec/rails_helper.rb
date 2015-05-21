@@ -4,6 +4,7 @@ require File.expand_path('../dummy/config/environment', __FILE__)
 require 'rspec/rails'
 require 'factory_girl_rails'
 require 'pry'
+require 'stripe_mock'
 
 if defined?(ActiveRecord::Migration.maintain_test_schema!)
   ActiveRecord::Migration.maintain_test_schema!

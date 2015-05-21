@@ -4,6 +4,7 @@ PATH
     magnetik (0.0.1)
       rails (>= 4.0.0)
       responders
+      stripe
 
 GEM
   remote: https://rubygems.org/
