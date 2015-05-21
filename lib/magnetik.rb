@@ -1,7 +1,10 @@
-require "magnetik/engine"
+require 'magnetik/engine'
 require 'responders'
 
 module Magnetik
+  extend ActiveSupport::Autoload
+
+  autoload :ActsAsMagnetikCustomer, 'magnetik/acts_as_magnetik_customer'
 
   # Method to authenticate a user:
   mattr_accessor :authentication_method
@@ -16,5 +19,11 @@ module Magnetik
   # Default way to setup Magnetik:
   def self.setup
     yield self
+  end
+end
+
+module ActiveRecord
+  class Base
+    include Magnetik::ActsAsMagnetikCustomer
   end
 end
