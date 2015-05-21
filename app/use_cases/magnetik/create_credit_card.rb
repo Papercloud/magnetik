@@ -27,6 +27,7 @@ module Magnetik
 
     def fetch_customer
       @remote_customer = Stripe::Customer.retrieve(@user.customer.stripe_customer_id)
+      @local_customer = @user.customer
     end
 
     def create_remote_customer

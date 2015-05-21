@@ -33,7 +33,7 @@ module Magnetik
         it 'creates a remote credit card' do
           @card = @customer.sources.create(:source => @card_token)
 
-          expect(Stripe::Customer).to receive(:create) { @customer }
+          expect(Stripe::Customer).to receive(:retrieve) { @customer }
           expect(@customer.sources).to receive(:create) { @card }
 
           CreateCreditCard.perform(@user, @card_token)
