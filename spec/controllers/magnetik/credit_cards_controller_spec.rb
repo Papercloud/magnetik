@@ -13,8 +13,7 @@ module Magnetik
 
     describe 'GET #index' do
       before :each do
-        @customer = create(:customer, owner: user)
-        @credit_cards = create_list(:credit_card, 3, customer: @customer)
+        @credit_cards = create_list(:credit_card, 3, customer: user)
       end
 
       it 'returns http success' do
@@ -75,7 +74,7 @@ module Magnetik
         customer = Stripe::Customer.create(email: 'customer@example.com')
         card = customer.sources.create(:source => stripe_helper.generate_card_token)
 
-        @customer = create(:customer, stripe_customer_id: customer.id)
+        @customer = create(:user, stripe_customer_id: customer.id)
         @credit_card = create(:credit_card, customer: @customer, stripe_card_id: card.id)
 
         @update_params = {
@@ -116,7 +115,7 @@ module Magnetik
         customer = Stripe::Customer.create(email: 'customer@example.com')
         card = customer.sources.create(:source => stripe_helper.generate_card_token)
 
-        @customer = create(:customer, stripe_customer_id: customer.id)
+        @customer = create(:user, stripe_customer_id: customer.id)
         @credit_card = create(:credit_card, customer: @customer, stripe_card_id: card.id)
       end
 

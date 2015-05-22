@@ -11,11 +11,11 @@ module Magnetik
     end
 
     def perform
-      if @user.customer.nil?
+      if @user.has_customer?
+        fetch_customer
+      else
         create_remote_customer
         create_local_customer
-      else
-        fetch_customer
       end
 
       if @remote_customer && create_remote_card
@@ -25,11 +25,10 @@ module Magnetik
 
     private
 
-    attr_reader :remote_customer, :local_customer, :remote_card
+    attr_reader :remote_customer, :remote_card
 
     def fetch_customer
-      @remote_customer = Stripe::Customer.retrieve(@user.customer.stripe_customer_id)
-      @local_customer = @user.customer
+      @remote_customer = Stripe::Customer.retrieve(@user.stripe_customer_id)
     end
 
     def create_remote_customer
@@ -39,9 +38,8 @@ module Magnetik
     end
 
     def create_local_customer
-      @local_customer = Customer.new(stripe_customer_id: remote_customer.id, owner: @user)
-      @local_customer.save.tap do |success|
-        errors.add(:base, "Customer failed to save") unless success
+      @user.update_attributes(stripe_customer_id: remote_customer.id).tap do |success|
+        errors.add(:base, "User failed to save") unless success
       end
     end
 
@@ -54,7 +52,7 @@ module Magnetik
 
     def create_local_card
       @local_card = CreditCard.new({
-        customer: local_customer,
+        customer: @user,
         stripe_card_id: remote_card[:id],
         last_4_digits: remote_card[:last4],
         exp_month: remote_card[:exp_month],

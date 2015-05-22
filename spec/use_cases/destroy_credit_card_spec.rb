@@ -11,7 +11,7 @@ module Magnetik
         @stripe_customer = Stripe::Customer.create(email: 'customer@example.com')
         @stripe_card = @stripe_customer.sources.create(:source => stripe_helper.generate_card_token)
 
-        @customer = create(:customer, stripe_customer_id: @stripe_customer.id)
+        @customer = create(:user, stripe_customer_id: @stripe_customer.id)
         @credit_card = create(:credit_card, customer: @customer, stripe_card_id: @stripe_card.id)
       end
 

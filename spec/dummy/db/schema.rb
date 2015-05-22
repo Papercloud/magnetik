@@ -11,35 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520052616) do
+ActiveRecord::Schema.define(version: 20150522015224) do
 
   create_table "magnetik_credit_cards", force: :cascade do |t|
-    t.integer  "customer_id"
     t.string   "stripe_card_id"
     t.string   "last_4_digits"
     t.string   "exp_month"
     t.string   "exp_year"
     t.string   "brand"
     t.boolean  "is_default"
+    t.integer  "customer_id"
+    t.string   "customer_type"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
 
-  add_index "magnetik_credit_cards", ["customer_id"], name: "index_magnetik_credit_cards_on_customer_id"
-
-  create_table "magnetik_customers", force: :cascade do |t|
-    t.string   "stripe_customer_id"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-  end
-
-  add_index "magnetik_customers", ["owner_id", "owner_type"], name: "index_magnetik_customers_on_owner_id_and_owner_type"
+  add_index "magnetik_credit_cards", ["customer_id", "customer_id"], name: "index_magnetik_credit_cards_on_customer_id_and_customer_id"
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "stripe_customer_id"
   end
 
 end

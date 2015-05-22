@@ -10,7 +10,7 @@ module Magnetik
       context 'user has a customer' do
         before :each do
           @customer = Stripe::Customer.create
-          @user = create(:user, customer: create(:customer, stripe_customer_id: @customer.id))
+          @user = create(:user, stripe_customer_id: @customer.id)
           @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
         end
 
@@ -24,10 +24,10 @@ module Magnetik
           CreateCreditCard.perform(@user, @card_token)
         end
 
-        it 'doesnt creates a local customer' do
+        it 'doesnt create a local customer' do
           expect {
             CreateCreditCard.perform(@user, @card_token)
-          }.to_not change(Customer, :count)
+          }.to_not change(@user, :stripe_customer_id)
         end
 
         it 'creates a remote credit card' do
@@ -62,7 +62,7 @@ module Magnetik
 
           expect {
             CreateCreditCard.perform(@user, @card_token)
-          }.to change(Customer, :count).by(1)
+          }.to change(@user, :stripe_customer_id)
         end
 
         it 'creates a remote credit card' do

@@ -7,8 +7,15 @@ module Magnetik
 
     module ClassMethods
       def acts_as_magnetik_customer(_options = {})
-        has_one :customer, as: :owner, class_name: 'Magnetik::Customer'
-        has_many :credit_cards, through: :customer, class_name: 'Magnetik::CreditCard'
+        include Magnetik::ActsAsMagnetikCustomer::LocalInstanceMethods
+
+        has_many :credit_cards, as: :customer, class_name: 'Magnetik::CreditCard'
+      end
+    end
+
+    module LocalInstanceMethods
+      def has_customer?
+        stripe_customer_id.present?
       end
     end
   end

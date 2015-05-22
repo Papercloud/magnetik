@@ -6,6 +6,6 @@ FactoryGirl.define do
     exp_year 2018
     brand "visa"
 
-    customer
+    association :customer, factory: :user
   end
 end

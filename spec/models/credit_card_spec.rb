@@ -4,7 +4,7 @@ module Magnetik
   RSpec.describe CreditCard, type: :model do
     describe 'associations' do
       it 'belongs to an customer' do
-        @customer = create(:customer)
+        @customer = create(:user)
         @credit_card = create(:credit_card, customer: @customer)
 
         expect(@customer.credit_cards).to include(@credit_card)
