@@ -1,5 +1,7 @@
 # Magnetik
 
+Rails engine for credit card management via Stripe.
+
 ## Installation
 
 Add the gem into your project:

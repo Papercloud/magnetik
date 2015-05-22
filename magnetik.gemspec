@@ -10,8 +10,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Anton Ivanopoulos"]
   s.email       = ["ai@papercloud.com"]
   s.homepage    = "http://www.papercloud.com.au"
-  s.summary     = "TODO: Summary of Magnetik."
-  s.description = "TODO: Description of Magnetik."
+  s.summary     = "Rails engine for credit card management via Stripe."
+  s.description = "Magnetik is a mountable rails engine that allows a model to be turned into a vessel for a Stripe customer, " <<
+                  "as well as providing routes for credit card management via Stripe, including creating, updating and deleting " <<
+                  "credit cards."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
