@@ -15,8 +15,8 @@ module Magnetik
         @credit_card = create(:credit_card, customer: @customer, stripe_card_id: @stripe_card.id, exp_month: "1", exp_year: "2016")
 
         @update_params = {
-          exp_month: 12,
-          exp_year: 2020,
+          exp_month: '12',
+          exp_year: '2020',
         }
       end
 
