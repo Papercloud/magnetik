@@ -2,6 +2,8 @@ module Magnetik
   class CreateCreditCard
     include UseCase
 
+    attr_reader :local_card
+
     def initialize(user, token)
       @token    = token
       @user     = user
@@ -23,7 +25,7 @@ module Magnetik
 
     private
 
-    attr_reader :remote_customer, :local_customer, :remote_card, :local_card
+    attr_reader :remote_customer, :local_customer, :remote_card
 
     def fetch_customer
       @remote_customer = Stripe::Customer.retrieve(@user.customer.stripe_customer_id)
@@ -45,6 +47,9 @@ module Magnetik
 
     def create_remote_card
       @remote_card = remote_customer.sources.create(source: @token)
+    rescue Stripe::CardError => e
+      errors.add(:base, "Credit card failed to save")
+      return false
     end
 
     def create_local_card
