@@ -2,8 +2,6 @@ require 'rails_helper'
 
 module Magnetik
   RSpec.describe CreditCardsController, type: :controller do
-    routes { Magnetik::Engine.routes }
-
     let(:user) { create(:user) }
 
     before :each do
