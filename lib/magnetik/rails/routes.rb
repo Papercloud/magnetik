@@ -43,9 +43,6 @@ module Magnetik
           path: 'credit_cards',
           only: [:index, :create, :update, :destroy],
         )
-
-        routes.put    'credit_cards/:token', controller: mapping[:controllers], action: :register
-        routes.delete 'credit_cards/:token', controller: mapping[:controllers], action: :deregister
       end
     end
   end
