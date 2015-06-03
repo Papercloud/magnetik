@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    magnetik (0.0.1)
+    magnetik (0.0.2)
       rails (>= 4.0.0)
       responders
       stripe
