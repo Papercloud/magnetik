@@ -1,4 +1,6 @@
 require 'magnetik/engine'
+require 'magnetik/rails/routes'
+
 require 'responders'
 
 module Magnetik
