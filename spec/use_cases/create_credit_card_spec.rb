@@ -70,6 +70,25 @@ module Magnetik
           CreateCreditCard.perform(@new_user, @card_token)
         end
 
+        it 'includes a customer description if the actor defines it' do
+          @customer = Stripe::Customer.create
+
+          expect(Stripe::Customer).to receive(:create).with(hash_including({
+            description: 'Magnetik Customer'
+          })) { @customer }
+          CreateCreditCard.perform(@user, @card_token)
+        end
+
+        it 'includes a nil description if the actor hasnt defined one' do
+          @new_user = create(:customer)
+          @customer = Stripe::Customer.create
+
+          expect(Stripe::Customer).to receive(:create).with(hash_including({
+            description: nil
+          })) { @customer }
+          CreateCreditCard.perform(@new_user, @card_token)
+        end
+
         it 'creates a local customer' do
           expect {
             CreateCreditCard.perform(@user, @card_token)

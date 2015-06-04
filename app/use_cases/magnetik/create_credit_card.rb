@@ -34,6 +34,7 @@ module Magnetik
     def create_remote_customer
       @remote_customer = Stripe::Customer.create({
         email: @actor.try(:email),
+        description: @actor.try(:stripe_description)
       })
     end
 

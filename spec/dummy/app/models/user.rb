@@ -6,4 +6,8 @@ class User < ActiveRecord::Base
 
   # Validations
   validates :email, presence: true
+
+  def stripe_description
+    'Magnetik Customer'
+  end
 end
