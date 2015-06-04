@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150604033650) do
     t.boolean  "is_default"
     t.integer  "customer_id"
     t.string   "customer_type"
+    t.string   "name"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end

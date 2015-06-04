@@ -10,6 +10,7 @@ class MagnetikCreateCreditCards < ActiveRecord::Migration
       t.integer :customer_id
       t.string  :customer_type
       t.index   [:customer_id, :customer_id]
+      t.string  :name
 
       t.timestamps null: false
     end
