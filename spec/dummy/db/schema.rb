@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522015224) do
+ActiveRecord::Schema.define(version: 20150604033650) do
+
+  create_table "customers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "stripe_customer_id"
+  end
+
+  add_index "customers", ["user_id"], name: "index_customers_on_user_id"
 
   create_table "magnetik_credit_cards", force: :cascade do |t|
     t.string   "stripe_card_id"
