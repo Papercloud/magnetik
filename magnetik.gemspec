@@ -29,4 +29,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry'
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'stripe-ruby-mock', '~> 2.1.1'
+  s.add_development_dependency 'shoulda-matchers'
 end
