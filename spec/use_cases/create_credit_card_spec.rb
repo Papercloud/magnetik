@@ -7,11 +7,15 @@ module Magnetik
       before  { StripeMock.start }
       after   { StripeMock.stop }
 
+      before :each do
+        @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
+        @user = create(:user)
+      end
+
       context 'user has a customer' do
         before :each do
           @customer = Stripe::Customer.create
-          @user = create(:user, stripe_customer_id: @customer.id)
-          @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
+          @user.update(stripe_customer_id: @customer.id)
         end
 
         it 'fetches a remote customer' do
@@ -48,27 +52,21 @@ module Magnetik
 
       context 'user has no customer' do
         it 'creates a remote customer' do
-          @user = create(:user)
           @customer = Stripe::Customer.create
-          @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
 
           expect(Stripe::Customer).to receive(:create) { @customer }
           CreateCreditCard.perform(@user, @card_token)
         end
 
-        it 'creates a local customer' do
-          @user = create(:user)
-          @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
 
+        it 'creates a local customer' do
           expect {
             CreateCreditCard.perform(@user, @card_token)
           }.to change(@user, :stripe_customer_id)
         end
 
         it 'creates a remote credit card' do
-          @user = create(:user)
           @customer = Stripe::Customer.create
-          @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
           @card = @customer.sources.create(:source => @card_token)
 
           expect(Stripe::Customer).to receive(:create) { @customer }
@@ -77,9 +75,6 @@ module Magnetik
         end
 
         it 'creates a local credit card' do
-          @user = create(:user)
-          @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
-
           expect {
             CreateCreditCard.perform(@user, @card_token)
           }.to change(CreditCard, :count).by(1)
