@@ -16,6 +16,10 @@ module Magnetik
   mattr_accessor :current_user_method
   @@current_user_method = nil
 
+  # Maximum length of card names:
+  mattr_accessor :max_name_length
+  @@max_name_length = 255
+
   private
 
   # Default way to setup Magnetik:

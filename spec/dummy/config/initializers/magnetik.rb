@@ -4,4 +4,7 @@ Magnetik.setup do |config|
 
   # Magnetik will call this within CreditCardsController to return the current logged in user.
   config.current_user_method = :current_user
+
+  # Maximum length of card names:
+  config.max_name_length = 255
 end
