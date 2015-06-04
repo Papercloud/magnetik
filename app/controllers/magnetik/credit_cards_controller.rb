@@ -11,8 +11,9 @@ module Magnetik
     end
 
     def create
-      @token = create_params[:token]
-      @use_case = CreateCreditCard.perform(customer, @token)
+      token = create_params[:token]
+      card_params = create_params.except(:token)
+      @use_case = CreateCreditCard.perform(customer, token, card_params)
 
       if @use_case.success?
         render json: { credit_card: @use_case.local_card }, status: :ok
@@ -63,12 +64,14 @@ module Magnetik
 
     def create_params
       params.require(:credit_card).permit(
-        :token
+        :token,
+        :name
       )
     end
 
     def update_params
       params.require(:credit_card).permit(
+        :name,
         :exp_month,
         :exp_year,
         :is_default

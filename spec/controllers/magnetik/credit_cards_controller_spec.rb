@@ -42,7 +42,7 @@ module Magnetik
         @customer = create(:customer, user: user)
 
         allow(controller).to receive(:customer) { @customer }
-        expect(CreateCreditCard).to receive(:perform).with(@customer, @card_token) { @use_case }
+        expect(CreateCreditCard).to receive(:perform).with(@customer, @card_token, {}) { @use_case }
 
         post :create, format: :json, credit_card: { token: @card_token }
       end
