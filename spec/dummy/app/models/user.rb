@@ -3,4 +3,7 @@ class User < ActiveRecord::Base
 
   # Associations
   has_one :customer
+
+  # Validations
+  validates :email, presence: true
 end

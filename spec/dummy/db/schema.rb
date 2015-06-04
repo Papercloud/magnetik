@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20150604033650) do
   add_index "magnetik_credit_cards", ["customer_id", "customer_id"], name: "index_magnetik_credit_cards_on_customer_id_and_customer_id"
 
   create_table "users", force: :cascade do |t|
+    t.string   "email"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "stripe_customer_id"
