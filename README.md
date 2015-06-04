@@ -35,7 +35,7 @@ end
 Mount the engine in your `routes.rb` file:
 ```
 Rails.application.routes.draw do
-  mount Magnetik::Engine => '/'
+  mount_magnetik
 end
 ```
 
@@ -57,6 +57,16 @@ POST { credit_card: { token: 'stripe_token' }}
 ```
 PUT { credit_card: { exp_month: 11, exp_year: 2020, is_default: true }}
 ```
+
+The routes for Magnetik can be customised to point to a custom controller:
+```
+Rails.application.routes.draw do
+  mount_magnetik do
+    controllers credit_cards: 'custom_credit_cards'
+  end
+end
+```
+And this will point the routes to the `CustomCreditCardsController`, as opposed to the `Magnetik::CreditCardsController` controller baked into the engine.
 
 ## Configuration
 
