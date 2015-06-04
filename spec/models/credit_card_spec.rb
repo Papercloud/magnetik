@@ -12,45 +12,13 @@ module Magnetik
     end
 
     describe 'validations' do
-      before :each do
-        @credit_card = build(:credit_card)
-      end
-
-      it 'cannot be created without a customer' do
-        @credit_card.customer = nil
-
-        expect(@credit_card).to_not be_valid
-      end
-
-      it 'cannot be created without a stripe id' do
-        @credit_card.stripe_card_id = nil
-
-        expect(@credit_card).to_not be_valid
-      end
-
-      it 'cannot be created without the last 4 digits of the card number' do
-        @credit_card.last_4_digits = nil
-
-        expect(@credit_card).to_not be_valid
-      end
-
-      it 'cannot be created without the expiry month' do
-        @credit_card.exp_month = nil
-
-        expect(@credit_card).to_not be_valid
-      end
-
-      it 'cannot be created without the expiry year' do
-        @credit_card.exp_year = nil
-
-        expect(@credit_card).to_not be_valid
-      end
-
-      it 'cannot be created without the brand' do
-        @credit_card.brand = nil
-
-        expect(@credit_card).to_not be_valid
-      end
+      it { should validate_presence_of(:customer) }
+      it { should validate_presence_of(:stripe_card_id) }
+      it { should validate_presence_of(:last_4_digits) }
+      it { should validate_presence_of(:exp_month) }
+      it { should validate_presence_of(:exp_year) }
+      it { should validate_presence_of(:brand) }
+      it { should validate_length_of(:name).is_at_most(Magnetik.max_name_length) }
     end
   end
 end
