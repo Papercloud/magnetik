@@ -54,10 +54,21 @@ module Magnetik
         it 'creates a remote customer' do
           @customer = Stripe::Customer.create
 
-          expect(Stripe::Customer).to receive(:create) { @customer }
+          expect(Stripe::Customer).to receive(:create).with(hash_including({
+            email: @user.email
+          })) { @customer }
           CreateCreditCard.perform(@user, @card_token)
         end
 
+        it 'creates a remote customer with a nil email if the model doesnt have one' do
+          @new_user = create(:customer)
+          @customer = Stripe::Customer.create
+
+          expect(Stripe::Customer).to receive(:create).with(hash_including({
+            email: nil
+          })) { @customer }
+          CreateCreditCard.perform(@new_user, @card_token)
+        end
 
         it 'creates a local customer' do
           expect {
