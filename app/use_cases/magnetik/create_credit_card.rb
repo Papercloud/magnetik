@@ -11,7 +11,7 @@ module Magnetik
     end
 
     def perform
-      if @actor.has_customer?
+      if @actor.has_stripe_customer?
         fetch_customer
       else
         create_remote_customer

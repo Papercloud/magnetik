@@ -14,7 +14,7 @@ module Magnetik
     end
 
     module LocalInstanceMethods
-      def has_customer?
+      def has_stripe_customer?
         stripe_customer_id.present?
       end
     end
