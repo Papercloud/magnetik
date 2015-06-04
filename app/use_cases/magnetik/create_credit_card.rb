@@ -4,9 +4,10 @@ module Magnetik
 
     attr_reader :local_card
 
-    def initialize(actor, token)
+    def initialize(actor, token, card_params = {})
       @token  = token
       @actor  = actor
+      @card_params = card_params
       @remote_customer = nil
     end
 
@@ -25,7 +26,7 @@ module Magnetik
 
     private
 
-    attr_reader :remote_customer, :remote_card
+    attr_reader :remote_customer, :remote_card, :card_params
 
     def fetch_customer
       @remote_customer = Stripe::Customer.retrieve(@actor.stripe_customer_id)
@@ -52,14 +53,14 @@ module Magnetik
     end
 
     def create_local_card
-      @local_card = CreditCard.new({
+      @local_card = CreditCard.new(card_params.merge({
         customer: @actor,
         stripe_card_id: remote_card[:id],
         last_4_digits: remote_card[:last4],
         exp_month: remote_card[:exp_month],
         exp_year: remote_card[:exp_year],
         brand: remote_card[:brand]
-      })
+      }))
 
       @local_card.save.tap do |success|
         errors.add(:base, "Credit card failed to save") unless success
