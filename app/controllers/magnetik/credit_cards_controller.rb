@@ -12,7 +12,7 @@ module Magnetik
 
     def create
       @token = create_params[:token]
-      @use_case = CreateCreditCard.perform(user, @token)
+      @use_case = CreateCreditCard.perform(customer, @token)
 
       if @use_case.success?
         render json: { credit_card: @use_case.local_card }, status: :ok
@@ -51,6 +51,10 @@ module Magnetik
 
     def user
       @user ||= method(Magnetik.current_user_method).call
+    end
+
+    def customer
+      @customer ||= user
     end
 
     def collection

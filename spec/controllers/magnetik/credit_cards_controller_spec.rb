@@ -32,6 +32,19 @@ module Magnetik
 
       before :each do
         @card_token = StripeMock.generate_card_token(last4: '9191', exp_year: 2020, exp_month: 1)
+
+        @use_case = double('CreateCreditCard')
+        allow(@use_case).to receive(:success?) { true }
+        allow(@use_case).to receive(:local_card)
+      end
+
+      it 'allows for the customer to be customised' do
+        @customer = create(:customer, user: user)
+
+        allow(controller).to receive(:customer) { @customer }
+        expect(CreateCreditCard).to receive(:perform).with(@customer, @card_token) { @use_case }
+
+        post :create, format: :json, credit_card: { token: @card_token }
       end
 
       context 'successful request' do
