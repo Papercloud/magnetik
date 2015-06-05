@@ -17,6 +17,7 @@ module Magnetik
         @update_params = {
           exp_month: '12',
           exp_year: '2020',
+          name: 'My updated card'
         }
       end
 
@@ -41,16 +42,22 @@ module Magnetik
         expect(stripe_card[:exp_year]).to eq @update_params[:exp_year]
       end
 
-      it 'removes the local credit cards month' do
-        expect {
+      it 'updates the local credit cards month' do
+        expect do
           UpdateCreditCard.perform(@credit_card, @update_params)
-        }.to change(@credit_card, :exp_month).to("12")
+        end.to change(@credit_card, :exp_month).to('12')
       end
 
-      it 'removes the local credit cards year' do
-        expect {
+      it 'updates the local credit cards year' do
+        expect do
           UpdateCreditCard.perform(@credit_card, @update_params)
-        }.to change(@credit_card, :exp_year).to("2020")
+        end.to change(@credit_card, :exp_year).to('2020')
+      end
+
+      it 'updates the local credit cards name' do
+        expect do
+          UpdateCreditCard.perform(@credit_card, @update_params)
+        end.to change(@credit_card, :name).to('My updated card')
       end
     end
   end

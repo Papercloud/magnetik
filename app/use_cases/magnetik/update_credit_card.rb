@@ -5,8 +5,8 @@ module Magnetik
     attr_reader :local_card
 
     def initialize(card, params)
-      @card       = card
-      @params     = params
+      @card   = card
+      @params = params
     end
 
     def perform

@@ -10,7 +10,7 @@ module Magnetik
       before :each do
         @card_token = StripeMock.generate_card_token(last4: "9191", exp_year: 2020, exp_month: 1)
         @user = create(:user)
-        @card_params = { name: 'My Card' }
+        @card_params = { name: 'My card' }
       end
 
       context 'user has a customer' do
@@ -109,7 +109,7 @@ module Magnetik
       it 'merges in the card params whe creating the local card' do
         @local_card = CreateCreditCard.perform(@user, @card_token, @card_params).local_card
 
-        expect(@local_card.name).to eq('My Card')
+        expect(@local_card.name).to eq('My card')
       end
     end
   end
