@@ -59,7 +59,7 @@ module Magnetik
     end
 
     def collection
-      @credit_cards ||= user.credit_cards.limit(30)
+      @credit_cards ||= customer.credit_cards.limit(30)
     end
 
     def create_params
