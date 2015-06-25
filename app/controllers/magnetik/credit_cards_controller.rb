@@ -16,7 +16,7 @@ module Magnetik
       @use_case = CreateCreditCard.perform(customer, token, card_params)
 
       if @use_case.success?
-        render json: { credit_card: @use_case.local_card }, status: :ok
+        render json: { credit_card: @use_case.local_card }, status: :created
       else
         render json: { errors: @use_case.errors }, status: :unprocessable_entity
       end

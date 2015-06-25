@@ -50,7 +50,7 @@ module Magnetik
       context 'successful request' do
         it 'returns http success' do
           post :create, format: :json, credit_card: { token: @card_token }
-          expect(response).to have_http_status(:ok)
+          expect(response).to have_http_status(:created)
         end
 
         it 'returns the credit card object' do
