@@ -6,6 +6,7 @@ require 'factory_girl_rails'
 require 'pry'
 require 'stripe_mock'
 require 'shoulda/matchers'
+require 'timecop'
 
 if defined?(ActiveRecord::Migration.maintain_test_schema!)
   ActiveRecord::Migration.maintain_test_schema!
