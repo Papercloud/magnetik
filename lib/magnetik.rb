@@ -20,6 +20,10 @@ module Magnetik
   mattr_accessor :max_name_length
   @@max_name_length = 255
 
+  # Time between card validations via pre-auth:
+  mattr_accessor :validation_interval
+  @@validation_interval = 3.months
+
   private
 
   # Default way to setup Magnetik:

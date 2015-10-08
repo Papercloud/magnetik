@@ -5,6 +5,7 @@ FactoryGirl.define do
     exp_month 10
     exp_year 2018
     brand "visa"
+    last_validated_at Time.now
 
     association :customer, factory: :user
   end

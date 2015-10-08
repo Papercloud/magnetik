@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604033650) do
+ActiveRecord::Schema.define(version: 20151008025835) do
 
   create_table "customers", force: :cascade do |t|
     t.integer  "user_id"
@@ -23,17 +23,18 @@ ActiveRecord::Schema.define(version: 20150604033650) do
   add_index "customers", ["user_id"], name: "index_customers_on_user_id"
 
   create_table "magnetik_credit_cards", force: :cascade do |t|
-    t.string   "stripe_card_id"
-    t.string   "last_4_digits"
-    t.string   "exp_month"
-    t.string   "exp_year"
-    t.string   "brand"
+    t.string   "stripe_card_id",    null: false
+    t.string   "last_4_digits",     null: false
+    t.string   "exp_month",         null: false
+    t.string   "exp_year",          null: false
+    t.string   "brand",             null: false
     t.boolean  "is_default"
-    t.integer  "customer_id"
-    t.string   "customer_type"
+    t.integer  "customer_id",       null: false
+    t.string   "customer_type",     null: false
     t.string   "name"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "last_validated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   add_index "magnetik_credit_cards", ["customer_id", "customer_id"], name: "index_magnetik_credit_cards_on_customer_id_and_customer_id"

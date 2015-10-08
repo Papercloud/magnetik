@@ -37,18 +37,21 @@ module Magnetik
         email: @actor.try(:email),
         description: @actor.try(:stripe_description)
       })
+    rescue Stripe::StripeError => e
+      errors.add(:credit_card, "failed to save for the following reasons: #{e.message}")
+      false
     end
 
     def create_local_customer
       @actor.update_attributes(stripe_customer_id: remote_customer.id).tap do |success|
-        errors.add(:base, "User failed to save") unless success
+        errors.add(:user, "failed to save") unless success
       end
     end
 
     def create_remote_card
       @remote_card = remote_customer.sources.create(source: @token)
     rescue Stripe::CardError => e
-      errors.add(:base, "Credit card failed to save")
+      errors.add(:credit_card, "failed to save for the following reasons: #{e.message}")
       return false
     end
 
@@ -59,11 +62,12 @@ module Magnetik
         last_4_digits: remote_card[:last4],
         exp_month: remote_card[:exp_month],
         exp_year: remote_card[:exp_year],
-        brand: remote_card[:brand]
+        brand: remote_card[:brand],
+        last_validated_at: Time.current,
       }))
 
       @local_card.save.tap do |success|
-        errors.add(:base, "Credit card failed to save") unless success
+        errors.add(:credit_card, "failed to save") unless success
       end
     end
 
