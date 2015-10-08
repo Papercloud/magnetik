@@ -7,4 +7,7 @@ Magnetik.setup do |config|
 
   # Maximum length of card names:
   config.max_name_length = 255
+
+  # Time between card validations via pre-auth:
+  config.validation_interval = 3.months
 end
