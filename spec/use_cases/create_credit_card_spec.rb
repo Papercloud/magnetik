@@ -30,9 +30,9 @@ module Magnetik
         end
 
         it 'doesnt create a local customer' do
-          expect {
+          expect do
             CreateCreditCard.perform(@user, @card_token, @card_params)
-          }.to_not change(@user, :stripe_customer_id)
+          end.to_not change(@user, :stripe_customer_id)
         end
 
         it 'creates a remote credit card' do
@@ -52,6 +52,7 @@ module Magnetik
           expect(Stripe::Customer).to receive(:create).with(hash_including({
             email: @user.email
           })) { @customer }
+
           CreateCreditCard.perform(@user, @card_token, @card_params)
         end
 
@@ -62,6 +63,7 @@ module Magnetik
           expect(Stripe::Customer).to receive(:create).with(hash_including({
             email: nil
           })) { @customer }
+
           CreateCreditCard.perform(@new_user, @card_token, @card_params)
         end
 
@@ -71,6 +73,7 @@ module Magnetik
           expect(Stripe::Customer).to receive(:create).with(hash_including({
             description: 'Magnetik Customer'
           })) { @customer }
+
           CreateCreditCard.perform(@user, @card_token, @card_params)
         end
 
@@ -81,6 +84,7 @@ module Magnetik
           expect(Stripe::Customer).to receive(:create).with(hash_including({
             description: nil
           })) { @customer }
+
           CreateCreditCard.perform(@new_user, @card_token, @card_params)
         end
 
@@ -100,16 +104,33 @@ module Magnetik
         end
       end
 
-      it 'creates a local credit card' do
-        expect {
-          CreateCreditCard.perform(@user, @card_token, @card_params)
-        }.to change(CreditCard, :count).by(1)
-      end
+      describe 'local card' do
+        before do
+          @t = Time.new(2015, 12, 25, 10, 30, 0)
+          Timecop.freeze(@t)
+        end
 
-      it 'merges in the card params whe creating the local card' do
-        @local_card = CreateCreditCard.perform(@user, @card_token, @card_params).local_card
+        after do
+          Timecop.return
+        end
 
-        expect(@local_card.name).to eq('My card')
+        it 'creates a local credit card' do
+          expect do
+            CreateCreditCard.perform(@user, @card_token, @card_params)
+          end.to change(CreditCard, :count).by(1)
+        end
+
+        it 'records the current time as the time the card was last validated' do
+          @local_card = CreateCreditCard.perform(@user, @card_token, @card_params).local_card
+
+          expect(@local_card.last_validated_at).to eq @t
+        end
+
+        it 'merges in the card params whe creating the local card' do
+          @local_card = CreateCreditCard.perform(@user, @card_token, @card_params).local_card
+
+          expect(@local_card.name).to eq('My card')
+        end
       end
     end
   end
