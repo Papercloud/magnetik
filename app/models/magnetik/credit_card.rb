@@ -11,6 +11,7 @@ module Magnetik
     validates :exp_year, presence: true
     validates :brand, presence: true
     validates :name, length: { maximum: Magnetik.max_name_length }
+    validates :last_validated_at, presence: true
 
     def requires_revalidation?
       return false if Magnetik.validation_interval.nil?

@@ -19,6 +19,7 @@ module Magnetik
       it { should validate_presence_of(:exp_year) }
       it { should validate_presence_of(:brand) }
       it { should validate_length_of(:name).is_at_most(Magnetik.max_name_length) }
+      it { should validate_presence_of(:last_validated_at) }
     end
 
     describe '#requires_revalidation?' do
