@@ -2,8 +2,8 @@ require 'rails/generators/active_record'
 
 module Magnetik
   module Generators
-    class InstallGenerator < Rails::Generators::Base
-      include Rails::Generators::Migration
+    class InstallGenerator < ::Rails::Generators::Base
+      include ::Rails::Generators::Migration
 
       source_root File.expand_path('../templates', __FILE__)
 

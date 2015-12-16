@@ -2,8 +2,8 @@ require 'rails/generators/named_base'
 
 module Magnetik
   module Generators
-    class MagnetikGenerator < Rails::Generators::NamedBase
-      include Rails::Generators::ResourceHelpers
+    class MagnetikGenerator < ::Rails::Generators::NamedBase
+      include ::Rails::Generators::ResourceHelpers
 
       namespace "magnetik"
       source_root File.expand_path('../templates', __FILE__)

@@ -3,7 +3,7 @@ require 'rails/generators/active_record'
 module ActiveRecord
   module Generators
     class MagnetikGenerator < ActiveRecord::Generators::Base
-      include Rails::Generators::Migration
+      include ::Rails::Generators::Migration
 
       source_root File.expand_path('../templates', __FILE__)
 
